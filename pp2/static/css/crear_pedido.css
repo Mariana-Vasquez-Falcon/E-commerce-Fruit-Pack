@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px 0;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pedido-section {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.producto-img {
+    width: 100px;
+    height: auto;
+}
+
+form {
+    margin-top: 20px;
+}
+
+form .btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+form .btn:hover {
+    background-color: #2ecc71;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.btn-volver:hover {
+    text-decoration: underline;
+}

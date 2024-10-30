@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ producto.nombre }} - Detalles</title>
+    <link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'inicio' %}">Fruit Pack</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos' %}">Productos</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mi_cuenta' %}">Mi Cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="detalle-producto container mt-5">
+        <h2 class="text-center">{{ producto.nombre }}</h2>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <img src="{{ producto.imagen.url }}" class="img-fluid" alt="{{ producto.nombre }}">
+            </div>
+            <div class="col-md-6">
+                <div class="detalles">
+                    <p>{{ producto.descripcion }}</p>
+                    <p><strong>Precio:</strong> S/{{ producto.precio }}</p>
+
+                    {% if user.is_authenticated %}
+                        <!-- Formulario para agregar al carrito--> 
+                        <form method="POST" action="{% url 'crear_pedido' producto.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad:</label>
+                                <input type="number" class="form-control" name="cantidad" value="1" min="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                        </form>
+
+                        <!-- Botón para ir al carrito -->
+                        <a href="{% url 'ver_carrito' %}" class="btn btn-secondary mt-3">Ver Carrito</a>
+                    {% else %}
+                        <p class="alert alert-info">Debes <a href="{% url 'login' %}">iniciar sesión</a> o <a href="{% url 'registro' %}">registrarte</a> para realizar compras.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-light text-center py-4 mt-5">
+        <p>&copy; 2024 Tienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

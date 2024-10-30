@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Pedido</title>
+    <link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                <li><a href="{% url 'productos' %}">Productos</a></li>
+                <li><a href="{% url 'ver_carrito' %}">Carrito</a></li>
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="pedido-section">
+            <h1>Crear Pedido</h1>
+            <h2>Producto: {{ producto.nombre }}</h2>
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-img">
+            <p>Precio: S/{{ producto.precio }}</p>
+            <p>{{ producto.descripcion }}</p> <!-- Descripción del producto -->
+
+            <!-- Formulario de pedido -->
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Agregar al carrito</button>
+            </form>
+
+            <a href="{% url 'productos' %}" class="btn-volver">Volver a productos</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tienda Natural. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar compra - Tienda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'inicio' %}">Fruit Pack</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'productos' %}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container mt-5">
+        <h2 class="text-center mb-4">Finalizar Compra</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ direccion_form.dni.id_for_label }}">DNI</label>
+                {{ direccion_form.dni }}
+                {% if direccion_form.dni.errors %}
+                    <div class="text-danger">{{ direccion_form.dni.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.nombres.id_for_label }}">Nombres</label>
+                {{ direccion_form.nombres }}
+                {% if direccion_form.nombres.errors %}
+                    <div class="text-danger">{{ direccion_form.nombres.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.apellidos.id_for_label }}">Apellidos</label>
+                {{ direccion_form.apellidos }}
+                {% if direccion_form.apellidos.errors %}
+                    <div class="text-danger">{{ direccion_form.apellidos.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.celular.id_for_label }}">Celular</label>
+                {{ direccion_form.celular }}
+                {% if direccion_form.celular.errors %}
+                    <div class="text-danger">{{ direccion_form.celular.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.correo.id_for_label }}">Correo</label>
+                {{ direccion_form.correo }}
+                {% if direccion_form.correo.errors %}
+                    <div class="text-danger">{{ direccion_form.correo.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.departamento.id_for_label }}">Ciudad</label>
+                {{ direccion_form.ciudad }}
+                {% if direccion_form.ciudad.errors %}
+                    <div class="text-danger">{{ direccion_form.ciudad.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ direccion_form.provincia.id_for_label }}">Distrito</label>
+                {{ direccion_form.distrito }}
+                {% if direccion_form.distrito.errors %}
+                    <div class="text-danger">{{ direccion_form.distrito.errors }}</div>
+                {% endif %}
+            </div>
+
+           
+
+            <div class="form-group">
+                <label for="{{ direccion_form.direccion.id_for_label }}">Dirección</label>
+                {{ direccion_form.direccion }}
+                {% if direccion_form.direccion.errors %}
+                    <div class="text-danger">{{ direccion_form.direccion.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Finalizar Compra</button>
+        </form>
+
+        {% if form.errors %}
+            <div class="errors">
+                <strong>Errores en el formulario:</strong>
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
+    </section>
+
+    <footer class="bg-light text-center py-4 mt-5">
+        <p>&copy; 2024 Tienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

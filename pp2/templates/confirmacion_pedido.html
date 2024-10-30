@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Pedido</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <header>
+        <h1>¡Gracias por tu pedido!</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Detalles de tu Pedido</h2>
+            <p>Tu pedido ha sido procesado exitosamente.</p>
+            <p>Recibirás un correo de confirmación con los detalles de tu pedido.</p>
+        </section>
+        <section>
+            <h3>Información de contacto</h3>
+            <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
+        </section>
+        <section>
+            <a href="{% url 'nombre_de_la_vista_principal' %}">Volver a la tienda</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Tu Tienda. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

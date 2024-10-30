@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Pedido - Tienda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'inicio' %}">Fruit Pack</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'productos' %}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container mt-5">
+        <h2 class="text-center mb-4">Detalles del Pedido #{{ pedido.id }}</h2>
+        <p><strong>Fecha:</strong> {{ pedido.fecha_pedido|date:"d/m/Y" }}</p>
+        <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+        <p><strong>Total:</strong> S/{{ pedido.subtotal|floatformat:2 }}</p>
+        
+        <h3>Productos</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if pedido.detallepedido_set.count > 0 %}
+                    {% for detalle in pedido.detallepedido_set.all %}
+                        <tr>
+                            <td>{{ detalle.producto.nombre }}</td>
+                            <td>{{ detalle.cantidad }}</td>
+                            <td>S/{{ detalle.producto.precio|floatformat:2 }}</td>
+                            <td>S/{{ detalle.subtotal|floatformat:2 }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No hay productos en este pedido.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>Información del Usuario</h3>
+        {% if pedido.direccion_envio %}
+            <p><strong>Celular:</strong> {{ pedido.direccion_envio.celular }}</p>
+            <p><strong>Dirección:</strong> {{ pedido.direccion_envio.direccion }}</p>
+            <p><strong>Ciudad:</strong> {{ pedido.direccion_envio.ciudad }}</p>
+            <p><strong>Distrito:</strong> {{ pedido.direccion_envio.distrito }}</p>
+        {% else %}
+            <p>No hay información de dirección de envío disponible.</p>
+        {% endif %}
+    </section>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Tienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

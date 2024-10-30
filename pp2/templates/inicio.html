@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tienda</title>
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{% static 'img/logo.jpg' %}" alt="Logo Fruit Pack">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                <li><a href="{% url 'productos' %}">Productos</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'mi_cuenta' %}">Mi cuenta</a></li>
+                    <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                {% endif %}
+            </ul>
+            <div class="search">
+                <input type="text" placeholder="Buscar...">
+                <button><i class="fa fa-search"></i></button>
+            </div>
+            <div class="icons">
+                <!-- Redirigir al carrito -->
+                {% if user.is_authenticated %}
+                    <a href="{% url 'ver_carrito' %}"><i class="fa fa-shopping-cart"></i></a>
+                {% else %}
+                    <a href="#" onclick="mostrarMensajeIniciarSesion(event)"><i class="fa fa-shopping-cart"></i></a>
+                {% endif %}
+                <a href="{% if user.is_authenticated %}{% url 'mi_cuenta' %}{% else %}{% url 'login' %}{% endif %}">
+                    <i class="fa fa-user"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <img src="{% static 'img/1inicio.jpg' %}" alt="Imagen principal" class="hero-img">
+            <div class="hero-text">
+                <h1>Productos 100% naturales a base de superfrutas</h1>
+                <a href="#" class="btn">Ir a la tienda</a>
+            </div>
+        </section>
+
+        <section class="productos">
+            <h2>Conoce nuestros productos</h2>
+            <div class="productos-grid">
+                <div class="producto-item">
+                    <img src="{% static 'img/productos/exotic_pulps.jpg' %}" alt="Exotic Pulps">
+                    <p>Exotic Pulps</p>
+                </div>
+                <div class="producto-item">
+                    <img src="{% static 'img/productos/frozen_berries.jpg' %}" alt="Frozen Berries">
+                    <p>Frozen Berries</p>
+                </div>
+                <div class="producto-item">
+                    <img src="{% static 'img/productos/frozen_yogurt.jpg' %}" alt="Frozen Yogurt">
+                    <p>Frozen Yogurt</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tienda Natural. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Modal flotante que pide iniciar sesión -->
+    <div id="mensaje-sesion" class="mensaje-sesion" style="display: none;">
+        <p>Por favor, inicie sesión para acceder al carrito.</p>
+        <a href="{% url 'login' %}" class="btn">Iniciar sesión</a>
+    </div>
+
+    <!-- Estilos para el mensaje flotante -->
+    <style>
+        .mensaje-sesion {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        .mensaje-sesion .btn {
+            color: white;
+            background-color: #007bff;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+    </style>
+
+    <!-- Script para mostrar el mensaje de iniciar sesión -->
+    <script>
+        function mostrarMensajeIniciarSesion(event) {
+            event.preventDefault(); // Evita que se ejecute la acción del link
+            var mensaje = document.getElementById("mensaje-sesion");
+            mensaje.style.display = "block"; // Muestra el mensaje
+            setTimeout(function() {
+                mensaje.style.display = "none"; // Oculta el mensaje después de 5 segundos
+            }, 5000);
+        }
+    </script>
+
+    <!-- Incluye FontAwesome para los íconos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</body>
+</html>

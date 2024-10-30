@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.productos {
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Estilo para la paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a, .pagination span {
+    color: #fff;
+    background-color: #6ed7b0;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.pagination a:hover {
+    background-color: #5cc79c;
+}
+
+.pagination .active span {
+    background-color: #2c3e50;
+}
+
+.pagination .disabled span {
+    background-color: #6ed7b0;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Tienda</title>
+    <link rel="stylesheet" href="{% static 'css/productos.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'inicio' %}">Fruit Pack</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos' %}">Productos</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mi_cuenta' %}">Mi Cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container mt-5">
+        <div class="row">
+            <!-- Filtros -->
+            <aside class="col-md-3">
+                <h4>Filtrar por</h4>
+
+                <!-- Filtro de categorías -->
+                <form method="GET" action="{% url 'productos' %}">
+                    <div class="mb-4">
+                        <h5>Categorías</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="categoria" value="Frutas de Huerto" id="frutasHuerto" {% if request.GET.categoria == "Frutas de Huerto" %}checked{% endif %}>
+                            <label class="form-check-label" for="frutasHuerto">Frutas de Huerto</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="categoria" value="Frutas de la Selva" id="frutasSelva" {% if request.GET.categoria == "Frutas de la Selva" %}checked{% endif %}>
+                            <label class="form-check-label" for="frutasSelva">Frutas de la Selva</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="categoria" value="Frutas Andinas" id="frutasAndinas" {% if request.GET.categoria == "Frutas Andinas" %}checked{% endif %}>
+                            <label class="form-check-label" for="frutasAndinas">Frutas Andinas</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="categoria" value="Frutas Tropicales" id="frutasTropicales" {% if request.GET.categoria == "Frutas Tropicales" %}checked{% endif %}>
+                            <label class="form-check-label" for="frutasTropicales">Frutas Tropicales</label>
+                        </div>
+                    </div>
+
+                    <!-- Filtro de precio -->
+                    <div class="mb-4">
+                        <h5>Precio</h5>
+                        <input type="range" class="custom-range" id="precio" name="precio" min="8" max="118" value="{{ request.GET.precio|default:60 }}">
+                        <div class="d-flex justify-content-between">
+                            <span>S/8.00</span>
+                            <span>S/118.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between">
+                        <!-- Botón de aplicar filtros -->
+                        <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+
+                        <!-- Botón de limpiar filtros -->
+                        <a href="{% url 'productos' %}" class="btn btn-secondary">Limpiar filtros</a>
+                    </div>
+                </form>
+            </aside>
+
+            <!-- Productos -->
+            <div class="col-md-9">
+                <h2 class="text-center mb-4">Todos los productos</h2>
+                <div class="row">
+                    {% for producto in page_obj %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card">
+                                <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/default-image.png' %}{% endif %}" class="card-img-top" alt="{{ producto.nombre }}">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                                    <p class="card-text">S/{{ producto.precio }}</p>
+
+                                    <form method="POST" action="{% url 'crear_pedido' producto.id %}">
+                                        {% csrf_token %}
+                                        {% if user.is_authenticated %}
+                                            <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                                        {% else %}
+                                            <a href="{% url 'login' %}?next={% url 'crear_pedido' producto.id %}" class="btn btn-warning">Añadir al carrito</a>
+                                        {% endif %}
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Paginación -->
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&categoria={{ request.GET.categoria }}&precio={{ request.GET.precio }}">Primera</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&categoria={{ request.GET.categoria }}&precio={{ request.GET.precio }}">Anterior</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <a class="page-link" href="#">{{ page_obj.number }}</a>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&categoria={{ request.GET.categoria }}&precio={{ request.GET.precio }}">Siguiente</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&categoria={{ request.GET.categoria }}&precio={{ request.GET.precio }}">Última</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-light text-center py-4">
+        <p>&copy; 2024 Tienda. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
