@@ -7,8 +7,9 @@ from .models import Producto, Categoria, Pedido, DetallePedido
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 from .forms import RegistroUsuarioForm, PedidoForm
 from django.core.paginator import Paginator
 from .forms import DireccionEnvioForm
@@ -77,6 +78,11 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+def salir(request):
+    logout(request)
+    messages.success(request, "Tu sesión se ha cerrado correctamente")
+    return redirect('inicio')
 
 # Vista para crear un pedido
 @login_required

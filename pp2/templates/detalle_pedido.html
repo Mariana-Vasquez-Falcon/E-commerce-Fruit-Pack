@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Pedido - Tienda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
@@ -19,7 +18,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'productos' %}">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'salir' %}">Cerrar sesión</a></li>
                 </ul>
             </div>
         </nav>

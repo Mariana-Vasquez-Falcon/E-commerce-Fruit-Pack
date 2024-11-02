@@ -7,26 +7,9 @@
     <title>Carrito - Tienda</title>
     <!-- Bootstrap CSS para el diseño profesional -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .table td, .table th {
-            vertical-align: middle;
-        }
-        .quantity-input {
-            width: 60px;
-            text-align: center;
-        }
-        .remove-btn {
-            color: #ff0000;
-            font-weight: bold;
-        }
-        .remove-btn:hover {
-            color: #ff3333;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+    
 </head>
 <body>
     <!-- Encabezado -->

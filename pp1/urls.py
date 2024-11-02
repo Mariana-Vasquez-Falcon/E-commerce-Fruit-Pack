@@ -15,14 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from pp2 import views  # Importa las vistas desde pp2
+from pp2 import views # Importa las vistas desde pp2
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.views import LogoutView
-from pp2 import views
-
-
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,17 +30,15 @@ urlpatterns = [
     path('finalizar/', views.finalizar_compra, name='finalizar_compra'),
     path('crear_pedido/<int:producto_id>/', views.crear_pedido, name='crear_pedido'),
     path('mi-cuenta/', views.mi_cuenta, name='mi_cuenta'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('salir/', views.salir, name='salir'),
     path('pedidos/', views.pedidos_view, name='pedidos'),
     path('carrito/actualizar/<int:pedido_id>/', views.actualizar_pedido, name='actualizar_pedido'),
     path('carrito/eliminar/<int:producto_id>/', views.eliminar_pedido, name='eliminar_pedido'),
     path('pedido/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
     path('confirmacion-pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
-    
-
-]
+    ]
 
 # Solo para desarrollo: para servir archivos de medios (imágenes, etc.)
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

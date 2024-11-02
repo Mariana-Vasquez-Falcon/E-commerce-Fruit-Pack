@@ -29,7 +29,7 @@
                             <a class="nav-link" href="{% url 'mi_cuenta' %}">Mi Cuenta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                            <a class="nav-link" href="{% url 'salir' %}">Cerrar Sesión</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -72,10 +72,10 @@
                     <!-- Filtro de precio -->
                     <div class="mb-4">
                         <h5>Precio</h5>
-                        <input type="range" class="custom-range" id="precio" name="precio" min="8" max="118" value="{{ request.GET.precio|default:60 }}">
+                        <input type="range" class="custom-range" id="precio" name="precio" min="7" max="20" value="{{ request.GET.precio|default:60 }}">
                         <div class="d-flex justify-content-between">
-                            <span>S/8.00</span>
-                            <span>S/118.00</span>
+                            <span>S/7.00</span>
+                            <span>S/20.00</span>
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@
                     {% for producto in page_obj %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
-                                <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/default-image.png' %}{% endif %}" class="card-img-top" alt="{{ producto.nombre }}">
+                                <img src="{% if 'producto.imagen' %}{{ producto.imagen.url }}{% else %}{% static 'img/productos/default-image.png' %}{% endif %}" class="card-img-top" alt="{{ producto.nombre }}">
                                 <div class="card-body text-center">
                                     <h5 class="card-title">{{ producto.nombre }}</h5>
                                     <p class="card-text">S/{{ producto.precio }}</p>

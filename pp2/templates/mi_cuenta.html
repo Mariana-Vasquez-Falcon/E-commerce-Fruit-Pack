@@ -5,49 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Cuenta - Tienda</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mi_cuenta.css' %}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-        .sidebar {
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-        .sidebar a {
-            display: block;
-            padding: 10px;
-            color: #333;
-            margin-bottom: 10px;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        .sidebar a.active, .sidebar a:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .content {
-            margin-left: 270px;
-            padding: 40px;
-        }
-        .content h2 {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        footer {
-            margin-top: 50px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">        
 </head>
 <body>
     <header>
@@ -65,7 +26,7 @@
                         <a class="nav-link" href="{% url 'productos' %}">Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                        <a class="nav-link" href="{% url 'salir' %}">Cerrar sesión</a>
                     </li>
                 </ul>
             </div>
@@ -78,7 +39,7 @@
         <a href="{% url 'pedidos' %}">Pedidos</a>
         <a href="#">Dirección</a>
         <a href="#">Detalles de la cuenta</a>
-        <a href="{% url 'logout' %}">Desconectarse</a>
+        <a href="{% url 'salir' %}">Desconectarse</a>
     </div>
 
     <div class="content">

@@ -6,18 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos - Tienda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        body { font-family: 'Arial', sans-serif; }
-        .navbar-brand { font-weight: bold; }
-        .table thead th { background-color: #007bff; color: white; text-align: center; }
-        .table tbody td { text-align: center; vertical-align: middle; }
-        .table tbody tr:hover { background-color: #f2f2f2; }
-        .container { margin-top: 60px; }
-        h2 { color: #007bff; font-weight: bold; }
-        p { font-size: 18px; color: #333; }
-        footer { margin-top: 50px; background-color: #f8f9fa; }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/pedidos.css' %}">    
 </head>
 <body>
     <header>
@@ -30,7 +20,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'productos' %}">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'salir' %}">Cerrar sesión</a></li>
                 </ul>
             </div>
         </nav>
