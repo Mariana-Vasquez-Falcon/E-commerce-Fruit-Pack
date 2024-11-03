@@ -1,0 +1,22 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+}
+
+.remove-btn {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.remove-btn:hover {
+    color: #ff3333;
+}

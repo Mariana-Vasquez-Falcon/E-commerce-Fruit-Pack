@@ -1,3 +1,17 @@
+.messages {
+    list-style-type: none;
+    padding: 0;
+}
+.messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
 /* Estilos del contenedor principal */
 body {
     font-family: 'Arial', sans-serif;
@@ -125,6 +139,27 @@ header {
 .producto-item p {
     margin-top: 10px;
     font-weight: bold;
+}
+
+.button-container {
+    display: flex; /* Utiliza flexbox para centrar */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente si es necesario */
+    height: 100vh; /* Altura del contenedor (opcional) */
+}
+
+.btn {
+    background-color: #04AA6D; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    padding: 14px 28px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    text-decoration: none; /* Sin subrayado */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s; /* Transición suave para el hover */
+}
+
+.btn:hover {
+    background-color: #03a054; /* Color de fondo al pasar el mouse */
 }
 
 /* Footer */

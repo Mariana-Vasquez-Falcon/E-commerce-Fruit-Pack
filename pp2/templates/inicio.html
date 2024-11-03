@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 </head>
 <body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
     <header>
         <nav class="navbar">
             <div class="logo">
@@ -45,11 +52,9 @@
         <section class="hero">
             <img src="{% static 'img/1inicio.jpg' %}" alt="Imagen principal" class="hero-img">
             <div class="hero-text">
-                <h1>Productos 100% naturales a base de superfrutas</h1>
-                <a href="#" class="btn">Ir a la tienda</a>
+                <h1>Productos 100% naturales a base de superfrutas</h1>                
             </div>
         </section>
-
         <section class="productos">
             <h2>Conoce nuestros productos</h2>
             <div class="productos-grid">
@@ -66,9 +71,12 @@
                     <p>Frozen Yogurt</p>
                 </div>
             </div>
+            <br>
+             <a style="text-align: center;" href={% url 'productos' %} class="btn">Ver más</a>
+            <br>
         </section>
     </main>
-
+   
     <footer>
         <p>&copy; 2024 Tienda Natural. Todos los derechos reservados.</p>
     </footer>

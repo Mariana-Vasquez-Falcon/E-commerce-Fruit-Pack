@@ -8,7 +8,7 @@ body {
 
 .card {
     border: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
 
@@ -37,7 +37,8 @@ footer p {
     margin: 0 5px;
 }
 
-.pagination a, .pagination span {
+.pagination a,
+.pagination span {
     color: #fff;
     background-color: #6ed7b0;
     border-radius: 5px;
