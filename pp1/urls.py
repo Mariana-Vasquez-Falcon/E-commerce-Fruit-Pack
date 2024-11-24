@@ -19,6 +19,7 @@ from pp2 import views # Importa las vistas desde pp2
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.inicio, name='inicio'),
@@ -36,9 +37,10 @@ urlpatterns = [
     path('carrito/eliminar/<int:producto_id>/', views.eliminar_pedido, name='eliminar_pedido'),
     path('pedido/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
     path('confirmacion-pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
+    path('buscar_ajax/', views.buscar_productos_ajax, name='buscar_productos_ajax'),
     ]
 
 # Solo para desarrollo: para servir archivos de medios (imágenes, etc.)
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

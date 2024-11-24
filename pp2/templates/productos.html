@@ -69,8 +69,8 @@
                         </div>
                     </div>
 
-                    <!-- Filtro de precio -->
-                    <div class="mb-4">
+                     <!-- Filtro de precio -->
+                     <div class="mb-4">
                         <h5>Precio</h5>
                         <input type="range" class="custom-range" id="precio" name="precio" min="7" max="20" value="{{ request.GET.precio|default:60 }}">
                         <div class="d-flex justify-content-between">
@@ -155,5 +155,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function updatePriceIndicator(value) {
+            document.getElementById('precio-indicador').textContent = 'Rango de precio: S/' + value;
+        }
+
+        // Inicializar el indicador al cargar la página
+        window.onload = function() {
+            updatePriceIndicator(document.getElementById('precio').value);
+        };
+    </script>
 </body>
 </html>

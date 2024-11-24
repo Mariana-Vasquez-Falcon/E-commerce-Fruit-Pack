@@ -55,6 +55,8 @@ class PedidoAdmin(admin.ModelAdmin):
         return ", ".join([str(detalle.cantidad) for detalle in obj.detallepedido_set.all()])
     mostrar_cantidades.short_description = 'Cantidades'
 
+
+
 # Configuración personalizada para la administración de categorías
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('nombre',)

@@ -7,7 +7,6 @@
     <title>Carrito - Tienda</title>
     <!-- Bootstrap CSS para el diseño profesional -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/carrito.css' %}">
     
 </head>
@@ -37,6 +36,17 @@
         </div>
     </header>
 
+    <!-- Mensaje de advertencia centrado -->
+    {% if messages %}
+        <div class="alert-container">
+            <div class="alert alert-warning text-center" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
     <!-- Sección del carrito -->
     <section class="container mt-5">
         <h2 class="text-center">Tu carrito de compras</h2>
@@ -60,7 +70,14 @@
                             {% endif %}
                             {{ pedido.producto.nombre }}
                         </td>
-                        <td>{{ pedido.cantidad }}</td>
+                        <td>
+                            <form action="{% url 'actualizar_pedido' pedido.producto.id %}" method="post" class="d-flex align-items-center">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="decrease" class="btn btn-secondary btn-sm">-</button>
+                                <input type="number" name="cantidad" value="{{ pedido.cantidad }}" class="quantity-input" readonly>
+                                <button type="submit" name="action" value="increase" class="btn btn-secondary btn-sm">+</button>
+                            </form>
+                        </td>
                         <td>S/{{ pedido.producto.precio|floatformat:2 }}</td>
                         <td>S/{{ pedido.subtotal|floatformat:2 }}</td>
                         <td>
@@ -76,8 +93,7 @@
                         <td colspan="5" class="text-center">Tu carrito está vacío.</td>
                     </tr>
                 {% endif %}
-            </tbody>
-            
+            </tbody>            
         </table>
         
         <!-- Botones de acción -->

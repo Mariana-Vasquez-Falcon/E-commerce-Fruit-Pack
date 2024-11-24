@@ -19,20 +19,28 @@ from .forms import RegistroUsuarioForm, PedidoForm, DireccionEnvioForm, ClienteF
 # Vista para la página de inicio
 def inicio(request):
     productos_destacados = Producto.objects.filter(disponible=True)[:4]  # Ejemplo de productos destacados
-    return render(request, 'inicio.html', {'productos_destacados': productos_destacados})
+    productos_aleatorios = Producto.objects.filter(disponible=True).order_by('?')[:3]  # Seleccionar 3 productos aleatorios
+    return render(request, 'inicio.html', {'productos_destacados': productos_destacados, 'productos_aleatorios': productos_aleatorios})
+
 
 # Vista para la página de productos
 def productos(request):
+    # Obtener todos los productos disponibles
     productos = Producto.objects.filter(disponible=True)
 
     # Filtrar por categoría
     categoria = request.GET.get('categoria')
     if categoria:
+        # Filtrar productos por la categoría seleccionada
         productos = productos.filter(categoria__nombre=categoria)
+        # Guardar la categoría seleccionada para usarla después en el filtro de precio
+        categoria_seleccionada = categoria
+    else:
+        categoria_seleccionada = None
 
-    # Filtrar por precio
+    # Filtrar por precio si hay una categoría seleccionada
     precio = request.GET.get('precio')
-    if precio:
+    if precio and categoria_seleccionada:  # Solo aplicar el filtro de precio si hay una categoría
         productos = productos.filter(precio__lte=precio)
 
     # Paginación: 12 productos por página
@@ -40,7 +48,8 @@ def productos(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'productos.html', {'page_obj': page_obj})
+    return render(request, 'productos.html', {'page_obj': page_obj, 'categoria_seleccionada': categoria_seleccionada})
+
 
 # Vista para ver los detalles de un producto
 def detalle_producto(request, producto_id):
@@ -147,6 +156,7 @@ def ver_carrito(request):
             'producto': producto,
             'cantidad': item['cantidad'],
             'subtotal': producto.precio * item['cantidad'],
+            'id': producto.id  # Agregar el ID del producto
         })
 
     return render(request, 'carrito.html', {'pedidos': pedidos, 'total': total_general})
@@ -160,7 +170,8 @@ def finalizar_compra(request):
 
     # Solo proceder si el carrito no está vacío
     if not carrito:
-        return redirect('nombre_de_la_vista_de_error')  # Redirigir si el carrito está vacío
+        messages.warning(request, "Agregue un producto para realizar la compra.")
+        return redirect('ver_carrito')  # Redirigir a la vista del carrito
 
     # Inicializa el formulario de dirección
     if request.method == 'POST':
@@ -204,11 +215,6 @@ def finalizar_compra(request):
 
 
 
-
-
-
-
-
 # Vista para ver la cuenta del usuario
 @login_required
 def mi_cuenta(request):
@@ -227,17 +233,25 @@ def pedidos_view(request):
 
 # Vista para actualizar un pedido (opcional, según sea necesario)
 @login_required
-def actualizar_pedido(request, pedido_id):
-    pedido = get_object_or_404(Pedido, id=pedido_id, usuario=request.user)
-    
-    if request.method == 'POST':
+def actualizar_pedido(request, producto_id):
+    # Recuperar el pedido desde la sesión
+    carrito = request.session.get('carrito', [])
+    pedido = next((item for item in carrito if item['producto_id'] == producto_id), None)
 
+    if request.method == 'POST' and pedido is not None:
+        action = request.POST.get('action')
+        producto = Producto.objects.get(id=producto_id)
         
-        nueva_cantidad = int(request.POST.get('cantidad', 1))
-        
-        # Actualizar la cantidad del pedido
-        pedido.cantidad = nueva_cantidad
-        pedido.save()
+        if action == 'increase':
+            pedido['cantidad'] += 1
+        elif action == 'decrease' and pedido['cantidad'] > 1:
+            pedido['cantidad'] -= 1
+            
+        # Actualiza el subtotal después de cambiar la cantidad
+        pedido['subtotal'] = float(producto.precio) * pedido['cantidad']
+
+    # Guardar los cambios en el carrito
+    request.session['carrito'] = carrito
         
     return redirect('ver_carrito')
 
@@ -304,3 +318,15 @@ def confirmacion_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id, usuario=request.user)
     return render(request, 'detalle_pedido.html', {'pedido': pedido})
 
+def buscar_productos_ajax(request):
+    query = request.GET.get('q', '')
+    productos = Producto.objects.filter(nombre__icontains=query)[:5] #Limitar los resultados a 5
+    resultados = []
+    for producto in productos:
+        resultados.append({
+            'id': producto.id,
+            'nombre':producto.nombre,
+            'imagen': producto.imagen.url,
+            'url': f'/productos7{producto.id}/' 
+        })
+    return JsonResponse(resultados, safe=False)
